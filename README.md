@@ -9,15 +9,31 @@ This contains the actual sources and tools in these submodules:
 
 Clone with `--recursive` or use `git submodules update --init` later:
 
-```
+```sh
 git clone --recurse-submodules --shallow-submodules git@github.com:workaroundgmbh/gateway-raspbian-kernel-build.git
+```
+
+## Apply Release To SD Card
+
+To apply a release tar-ball you can run:
+
+```sh
+tar xfz <release>.tgz
+cd <release>
+./copy_to_sdcard.sh
+```
+
+If you want to instead use your own build run:
+
+```sh
+make copy_to_sdcard
 ```
 
 ## Prerequisites
 
 On debian based sytems such as Ubuntu run:
 
-```
+```sh
 sudo apt install git bc bison flex libssl-dev make libc6-dev libncurses5-dev
 ```
 
@@ -25,7 +41,7 @@ sudo apt install git bc bison flex libssl-dev make libc6-dev libncurses5-dev
 
 Just run the Makefile all target for a build:
 
-```
+```sh
 make
 ```
 
@@ -33,13 +49,13 @@ make
 
 This is mainly a preparation for eventual github/cloudsmith/etc releases:
 
-```
+```sh
 make release
 ```
 
 ## Copy Kernel And Modules Onto SD Card
 
-```
+```sh
 make copy_to_sdcard
 ```
 
