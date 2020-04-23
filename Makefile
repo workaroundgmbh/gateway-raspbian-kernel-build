@@ -1,4 +1,4 @@
-.PHONY: all patch release
+.PHONY: all copy_to_sdcard clean patch release stage
 
 ARCH := arm
 CROSS_COMPILE := arm-linux-gnueabihf-
@@ -19,10 +19,12 @@ export PATH
 
 all: patch kernel
 
+clean:
+	rm -rf build
+
 kernel: config
 	mkdir -p ${BUILD_ARTIFACT_PATH}
 	make -C linux -j4 zImage modules dtbs
-	INSTALL_MOD_PATH=${BUILD_ARTIFACT_PATH} make -C linux modules_install
 
 patch:
 	cd linux && git reset --hard
@@ -34,12 +36,15 @@ config: linux/.config config.fragment
 	make -C linux bcmrpi_defconfig
 	cd linux && ./scripts/kconfig/merge_config.sh .config ../config.fragment
 
-release: #kernel
+stage: kernel
 	cp -r linux/arch/arm/boot ${BUILD_ARTIFACT_PATH}/
+	INSTALL_MOD_PATH=${BUILD_ARTIFACT_PATH} make -C linux modules_install
+	rm ${BUILD_ARTIFACT_PATH}/lib/modules/*/build
+	rm ${BUILD_ARTIFACT_PATH}/lib/modules/*/source
+
+release: stage
+	cp scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}/
 	cd build && tar cfz ${BUILD_ARTIFACT}.tgz ${BUILD_ARTIFACT}
 
-copy_to_sdcard:
-	cp linux/arch/arm/boot/zImage ${SDCARD_MOUNT_BOOT}/kernel.img
-	cp linux/arch/arm/boot/dts/*.dtb ${SDCARD_MOUNT_BOOT}/
-	cp linux/arch/arm/boot/dts/overlays/*.dtb* ${SDCARD_MOUNT_BOOT}/overlays/
-	cd linux/arch/arm/boot/modules && sudo cp -r * ${SDCARD_MOUNT_ROOT}/
+copy_to_sdcard: stage
+	./scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}
