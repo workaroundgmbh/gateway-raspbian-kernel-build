@@ -20,7 +20,7 @@ index 1476a91ce935..7a8c0904e4d9 100644
  	struct smp_chan *smp = chan->data;
 
 +	/* Bluetooth core specification 5.2, Vol 3, Part C, 10.2.1 */
-+	if ((chan->sec_level == BT_SECURITY_FIPS)
++	if ((conn->hcon->pending_sec_level == BT_SECURITY_FIPS)
 +			&& (max_key_size != SMP_MAX_ENC_KEY_SIZE))
 +		return SMP_ENC_KEY_SIZE;
 +
