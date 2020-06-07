@@ -32,7 +32,7 @@ patch:
 		git apply < $$patch; \
 	done
 
-config: linux/.config config.fragment
+config: config.fragment
 	make -C linux bcmrpi_defconfig
 	cd linux && ./scripts/kconfig/merge_config.sh .config ../config.fragment
 
@@ -46,5 +46,5 @@ release: stage
 	cp scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}/
 	cd build && tar cfz ${BUILD_ARTIFACT}.tgz ${BUILD_ARTIFACT}
 
-copy_to_sdcard: stage
+copy_to_sdcard: 
 	./scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}
