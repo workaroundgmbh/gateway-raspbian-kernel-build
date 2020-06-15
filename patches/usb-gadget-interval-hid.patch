@@ -1,5 +1,5 @@
 diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 492bb44153b3..a364321dcfbc 100644
+index 492bb44153b3..ae9846389e3e 100644
 --- a/drivers/usb/gadget/function/f_hid.c
 +++ b/drivers/usb/gadget/function/f_hid.c
 @@ -44,6 +44,7 @@ struct f_hidg {
@@ -86,7 +86,7 @@ index 492bb44153b3..a364321dcfbc 100644
  	struct device		*device;
  	int			status;
  	dev_t			dev;
-+	unsigned short interval_ms = hidg->interval;
++	unsigned char interval_ms = hidg->interval ? hidg->interval : 1;
  
  	/* maybe allocate device-global string IDs, and patch descriptors */
  	us = usb_gstrings_attach(c->cdev, ct_func_strings,
