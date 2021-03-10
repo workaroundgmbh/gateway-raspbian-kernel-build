@@ -2,8 +2,9 @@
 
 ARCH := arm
 CROSS_COMPILE := arm-linux-gnueabihf-
-KERNEL := linux
+KERNEL := kernel
 PATH := $(PATH):$(shell pwd)/tools/arm-bcm2708/arm-linux-gnueabihf/bin
+BOARD_CONFIG := bcmrpi_defconfig
 
 BUILD ?= $(shell git describe --tags --always)
 BUILD_ARTIFACT ?= gateway_kernel_${BUILD}
@@ -14,12 +15,12 @@ SDCARD_MOUNT_ROOT ?= /media/${USERNAME}/rootfs
 
 export ARCH
 export CROSS_COMPILE
-export KERNEL
 export PATH
 
 all: patch kernel
 
 clean:
+	make -C linux clean
 	rm -rf build
 
 kernel: config
@@ -33,7 +34,7 @@ patch:
 	done
 
 config: config.fragment
-	make -C linux bcmrpi_defconfig
+	make -C linux $(BOARD_CONFIG)
 	cd linux && ./scripts/kconfig/merge_config.sh .config ../config.fragment
 
 stage: kernel
