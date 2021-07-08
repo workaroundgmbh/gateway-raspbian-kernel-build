@@ -3,6 +3,7 @@
 ARCH := arm
 CROSS_COMPILE := arm-linux-gnueabihf-
 KERNEL := kernel
+KERNEL_TAG := 676fd5a6f2a9b365da0e0371ef11acbb74cb69d5
 PATH := $(PATH):$(shell pwd)/tools/arm-bcm2708/arm-linux-gnueabihf/bin
 BOARD_CONFIG := bcmrpi_defconfig
 
@@ -28,7 +29,10 @@ kernel: config
 	make -C linux -j4 zImage modules dtbs
 
 patch:
-	cd linux && git reset --hard
+	cd linux && \
+	git fetch --all --tags && \
+	git reset --hard $(KERNEL_TAG)
+
 	cd linux && for patch in $$(find ../patches/$(KERNEL) -iname '*.patch'); do \
 		echo "apply patch $${patch}"; \
 		git apply < $$patch; \
@@ -48,5 +52,5 @@ release: stage
 	cp scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}/
 	cd build && tar cfz ${BUILD_ARTIFACT}.tgz ${BUILD_ARTIFACT}
 
-copy_to_sdcard: 
+copy_to_sdcard:
 	./scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}
