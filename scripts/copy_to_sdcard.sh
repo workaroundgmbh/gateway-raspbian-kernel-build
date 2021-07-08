@@ -8,4 +8,4 @@ STAGE=${1:-.}
 cp -v $STAGE/boot/zImage ${SDCARD_MOUNT_BOOT}/${KERNEL}.img
 cp -v $STAGE/boot/dts/*.dtb ${SDCARD_MOUNT_BOOT}/
 cp -v $STAGE/boot/dts/overlays/*.dtb* ${SDCARD_MOUNT_BOOT}/overlays/
-cd $STAGE && sudo cp -v -r --no-dereference lib ${SDCARD_MOUNT_ROOT}/
+cd $STAGE && sudo cp -v -r --no-dereference lib/* ${SDCARD_MOUNT_ROOT}/lib/
