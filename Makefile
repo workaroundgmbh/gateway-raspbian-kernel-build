@@ -29,7 +29,8 @@ kernel: config
 
 patch:
 	cd linux && git reset --hard
-	cd linux && for patch in `ls ../patches/*.patch`; do \
+	cd linux && for patch in $$(find ../patches/$(KERNEL) -iname '*.patch'); do \
+		echo "apply patch $${patch}"; \
 		git apply < $$patch; \
 	done
 
