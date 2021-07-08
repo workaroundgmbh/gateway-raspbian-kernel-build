@@ -6,6 +6,7 @@ KERNEL := kernel
 KERNEL_TAG := 676fd5a6f2a9b365da0e0371ef11acbb74cb69d5
 PATH := $(PATH):$(shell pwd)/tools/arm-bcm2708/arm-linux-gnueabihf/bin
 BOARD_CONFIG := bcmrpi_defconfig
+JOBS := 4
 
 BUILD ?= $(shell git describe --tags --always)
 BUILD_ARTIFACT ?= gateway_kernel_${BUILD}
@@ -26,7 +27,7 @@ clean:
 
 kernel: config
 	mkdir -p ${BUILD_ARTIFACT_PATH}
-	make -C linux -j4 zImage modules dtbs
+	make -C linux -j$(JOBS) zImage modules dtbs
 
 patch:
 	cd linux && \
