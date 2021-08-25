@@ -34,7 +34,7 @@ patch:
 	git fetch --all --tags && \
 	git reset --hard $(KERNEL_TAG)
 
-	cd linux && for patch in $$(find ../patches/$(KERNEL) -iname '*.patch'); do \
+	cd linux && for patch in $$(find ../patches/$(KERNEL_TAG) -iname '*.patch'); do \
 		echo "apply patch $${patch}"; \
 		git apply < $$patch; \
 	done
