@@ -1,16 +1,30 @@
-diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index e5dfa786f190..6bf21a5db3dd 100644
---- a/drivers/mtd/spi-nor/winbond.c
-+++ b/drivers/mtd/spi-nor/winbond.c
-@@ -87,7 +87,10 @@ static const struct flash_info winbond_parts[] = {
- 			    SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB) },
+diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
+index f028277fb1ce..3bb8b4f0712d 100644
+--- a/drivers/mtd/spi-nor/spi-nor.c
++++ b/drivers/mtd/spi-nor/spi-nor.c
+@@ -1241,7 +1241,10 @@ static const struct flash_info spi_nor_ids[] = {
+ 	},
  	{ "w25q80", INFO(0xef5014, 0, 64 * 1024,  16, SECT_4K) },
  	{ "w25q80bl", INFO(0xef4014, 0, 64 * 1024,  16, SECT_4K) },
 -	{ "w25q128", INFO(0xef4018, 0, 64 * 1024, 256, SECT_4K) },
 +	{ "w25q128", INFO(0xef4018, 0, 32 * 1024, 512,
-+					  SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ |
-+					  SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB)
++			SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ |
++			SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB)
 +	},
- 	{ "w25q256", INFO(0xef4019, 0, 64 * 1024, 512,
- 			  SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ)
- 	  .fixups = &w25q256_fixups },
+ 	{ "w25q256", INFO(0xef4019, 0, 64 * 1024, 512, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+ 	{ "w25m512jv", INFO(0xef7119, 0, 64 * 1024, 1024,
+ 			SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ) },
+@@ -2295,6 +2298,13 @@ static int spi_nor_parse_bfpt(struct spi_nor *nor,
+ 			break;
+ 		}
+ #endif
++
++		if (erasesize == SZ_32K) {
++			nor->erase_opcode = opcode;
++			mtd->erasesize = erasesize;
++			break;
++		}
++
+ 		if (!mtd->erasesize || mtd->erasesize < erasesize) {
+ 			nor->erase_opcode = opcode;
+ 			mtd->erasesize = erasesize;
