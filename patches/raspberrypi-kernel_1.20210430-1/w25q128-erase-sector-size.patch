@@ -1,3 +1,28 @@
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index ad6c79d9a7f8..2c6ea908c4f9 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -2559,7 +2559,7 @@ static int spi_nor_select_erase(struct spi_nor *nor)
+ 	struct spi_nor_erase_map *map = &nor->params->erase_map;
+ 	const struct spi_nor_erase_type *erase = NULL;
+ 	struct mtd_info *mtd = &nor->mtd;
+-	u32 wanted_size = nor->info->sector_size;
++	u32 wanted_size = 32 * 1024;
+ 	int i;
+ 
+ 	/*
+@@ -2570,11 +2570,6 @@ static int spi_nor_select_erase(struct spi_nor *nor)
+ 	 * manage the SPI flash memory as uniform with a single erase sector
+ 	 * size, when possible.
+ 	 */
+-#ifdef CONFIG_MTD_SPI_NOR_USE_4K_SECTORS
+-	/* prefer "small sector" erase if possible */
+-	wanted_size = 4096u;
+-#endif
+-
+ 	if (spi_nor_has_uniform_erase(nor)) {
+ 		erase = spi_nor_select_uniform_erase(map, wanted_size);
+ 		if (!erase)
 diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
 index e5dfa786f190..6bf21a5db3dd 100644
 --- a/drivers/mtd/spi-nor/winbond.c
