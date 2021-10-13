@@ -55,3 +55,6 @@ release: stage
 
 copy_to_sdcard:
 	./scripts/copy_to_sdcard.sh ${BUILD_ARTIFACT_PATH}
+
+create_zip:
+	./scripts/create_zip.sh ${BUILD_ARTIFACT_PATH} ${KERNEL} ${KERNEL_TAG}
