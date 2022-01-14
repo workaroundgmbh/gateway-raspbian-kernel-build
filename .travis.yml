@@ -1,0 +1,42 @@
+dist: bionic
+
+git:
+  depth: false
+  submodules: true
+
+language: generic
+python:
+  - "3.7"
+
+addons:
+  apt:
+    packages:
+      - build-essential
+      - bison
+      - flex
+      - python3-pip
+      - libncurses-dev
+      - gawk
+      - openssl
+      - libssl-dev
+      - dkms
+      - libelf-dev
+      - libudev-dev
+      - libpci-dev
+      - libiberty-dev autoconf
+
+before_deploy:
+  - set -e
+  - pip3 install setuptools
+  - pip3 install cloudsmith-cli
+  - make clean
+  - make patch stage
+  - make create_zip
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: make push_to_cloudsmith
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^(master|test\/.*)$
