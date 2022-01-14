@@ -1,6 +1,3 @@
-[submodule "linux"]
-	path = linux
-	url = https://github.com/raspberrypi/linux
 [submodule "tools"]
 	path = tools
 	url = https://github.com/raspberrypi/tools
