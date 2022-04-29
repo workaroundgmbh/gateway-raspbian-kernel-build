@@ -1,0 +1,13 @@
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 2caccbb6e014..32d63aae0355 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -132,7 +132,7 @@ static struct portmaster {
+ 	struct gs_port	*port;
+ } ports[MAX_U_SERIAL_PORTS];
+ 
+-#define GS_CLOSE_TIMEOUT		15		/* seconds */
++#define GS_CLOSE_TIMEOUT		1		/* seconds */
+ 
+ 
+ 
