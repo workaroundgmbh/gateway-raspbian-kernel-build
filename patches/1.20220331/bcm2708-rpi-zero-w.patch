@@ -1,0 +1,13 @@
+diff --git a/arch/arm/boot/dts/bcm2708-rpi-zero-w.dts b/arch/arm/boot/dts/bcm2708-rpi-zero-w.dts
+index b49c3cb1438d..bb86cbec04f5 100644
+--- a/arch/arm/boot/dts/bcm2708-rpi-zero-w.dts
++++ b/arch/arm/boot/dts/bcm2708-rpi-zero-w.dts
+@@ -11,7 +11,7 @@ / {
+ 	model = "Raspberry Pi Zero W";
+ 
+ 	chosen {
+-		bootargs = "coherent_pool=1M 8250.nr_uarts=1 snd_bcm2835.enable_compat_alsa=0 snd_bcm2835.enable_hdmi=1";
++		bootargs = "coherent_pool=1M 8250.nr_uarts=1 snd_bcm2835.enable_compat_alsa=0 snd_bcm2835.enable_hdmi=0";
+ 	};
+ 
+ 	aliases {
