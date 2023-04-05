@@ -7,7 +7,7 @@ index 7c6bbe9ca..80ffd46ea 100644
  #include "bcm283x-rpi-csi1-2lane.dtsi"
  #include "bcm283x-rpi-i2c0mux_0_28.dtsi"
 +#include "bcm2708-rpi-bt.dtsi"
- -haaa
+ 
  / {
  	compatible = "raspberrypi,model-zero", "brcm,bcm2835";
  	model = "Raspberry Pi Zero";
@@ -22,7 +22,7 @@ index 7c6bbe9ca..80ffd46ea 100644
 +		mmc1 = &mmcnr;
 +	};
  };
-
+ 
  &gpio {
 @@ -34,8 +45,8 @@ &gpio {
  			  "GPIO12",
@@ -78,7 +78,7 @@ index 7c6bbe9ca..80ffd46ea 100644
 @@ -101,13 +114,59 @@ i2s_pins: i2s {
  		brcm,function = <4>; /* alt0 */
  	};
-
+ 
 +	sdio_pins: sdio_pins {
 +		brcm,pins = <34 35 36 37 38 39>;
 +		brcm,function = <7>; /* ALT3 = SD1 */
@@ -108,7 +108,7 @@ index 7c6bbe9ca..80ffd46ea 100644
  		brcm,function = <>;
  	};
  };
-
+ 
 +&mmcnr {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&sdio_pins>;
@@ -134,3 +134,4 @@ index 7c6bbe9ca..80ffd46ea 100644
 +	pinctrl-0 = <&uart1_pins>;
  	status = "okay";
  };
+ 
